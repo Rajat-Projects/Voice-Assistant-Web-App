@@ -1,3 +1,5 @@
+//This file connects the browser to the server, handles speech recognition (input), and speech synthesis (output).
+
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition; // This sets up speech recognition in the browser.
 const socket = io();
 const recognition = new SpeechRecognition(); // It uses webkitSpeechRecognition for Chrome support.
@@ -19,13 +21,13 @@ recognition.addEventListener('result', (e) => {         // when speech is recong
 });
 
 function synthVoice(text) {
-    const synth = window.speechSynthesis;
-    const utterance = new SpeechSynthesisUtterance();
+    const synth = window.speechSynthesis;               // Converts text into spoken audio
+    const utterance = new SpeechSynthesisUtterance();   // uses browser's built in speech synthesis engine
     utterance.text = text;
     synth.speak(utterance);
 }
 
-socket.on('bot reply', function(replyText) {
-    synthVoice(replyText);
+socket.on('bot reply', function(replyText) {            
+    synthVoice(replyText);                              // Once it gets the reply from Dialogflow, it speaks it out loud using synthVoice
 });
   
